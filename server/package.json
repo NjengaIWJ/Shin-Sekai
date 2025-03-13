@@ -23,7 +23,7 @@
 	"scripts": {
 		"start": "nodemon",
 		"test": "jest",
-		"dev": "nodemon --exec ts-node index.ts"
+		"dev": "npx nodemon --exec npx ts-node index.ts"
 	},
 	"dependencies": {
 		"bcryptjs": "^3.0.2",
@@ -55,4 +55,3 @@
 		"typescript": "^5.8.2"
 	}
 }
-
