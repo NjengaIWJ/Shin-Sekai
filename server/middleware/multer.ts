@@ -1,4 +1,4 @@
-import multer from "multer";
+import multer, { memoryStorage } from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -8,16 +8,12 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET || "",
 });
 
-const storage = new CloudinaryStorage({
-	cloudinary: cloudinary,
-	params: {
-		public_id: (req, file) => `${Date.now()}-${file.originalname}`,
-	},
-});
+const storage = memoryStorage();
 
 const uploads = multer({
 	storage: storage,
 	limits: { fileSize: 10 * 1024 * 1024 },
 });
 
+export { cloudinary };
 export default uploads;

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel";
 import bcrypt from "bcryptjs";
+import { cloudinary } from "../middleware/multer";
 
 const secretKey = process.env.JWT_SECRET;
 if (!secretKey) {
@@ -10,13 +11,22 @@ if (!secretKey) {
 
 export const register = async (req: Request, res: Response) => {
 	let image = "";
-	if (req.file && "path" in req.file) {
-		image = (req.file as Express.Multer.File).path;
-	}
-
 	const { email, username, password } = req.body;
 
-	if (req.file) image = req.file.path;
+	if (req.file) {
+		const file = req.file;
+		image = await new Promise<string>((resolve, reject) => {
+			cloudinary.uploader
+				.upload_stream({ upload_preset: "art-gallery" }, (error, result) => {
+					if (result) resolve(result.url);
+					else reject(error);
+				})
+				.end(file.buffer);
+		}).catch((error) => {
+			res.status(500).json({ message: "Image upload failed", error });
+			return "";
+		});
+	}
 	if (!email || !username || !password) {
 		res.status(400).json({ message: "Please enter all fields" });
 		return;
