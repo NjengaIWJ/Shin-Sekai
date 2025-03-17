@@ -14,6 +14,33 @@ export const getComments = async (req: Request, res: Response) => {
   }
 };
 
+export const getCommentsByPost = async (req: Request, res: Response) => {
+  const { post } = req.params;
+  try {
+    const comments = await Comment.find
+      ({ post })
+      .populate("user", "name")
+      .populate("post", "title");
+    res.json({ comments, message: "すごいすごい" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "やめやめ" });
+  }
+}
+
+export const getComment = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const comment = await Comment.findById(id)
+      .populate("user", "name")
+      .populate("post", "title");
+    res.json({ comment, message: "すごいすごい" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "やめやめ" });
+  }
+};
+
 export const createComment = async (req: Request, res: Response) => {
   const { content, user, post } = req.body;
   if (!content || !user || !post) {
