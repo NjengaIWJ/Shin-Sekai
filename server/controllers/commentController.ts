@@ -82,3 +82,20 @@ export const deleteComment = async ( req: Request, res: Response) => {
     res.status(500).json({ message: "やめてやめて" });
   }
 };
+
+export const updateComment = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { content } = req.body;
+  if (!content) {
+    res.status(400).json({ message: "だめです" });
+    return;
+  }
+  try {
+    await Comment.findByIdAndUpdate
+    (id, { content });
+    res.json({ message: "すごいすごい" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "やめてやめて" });
+  }
+};
