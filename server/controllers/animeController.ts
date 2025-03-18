@@ -86,4 +86,62 @@ export const getAnimeById = async (req: Request, res: Response) => {
     }
     }
 
+
+    export const getAiringAnime = async (req: Request, res: Response) => {
+      try {
+        const response = await fetch(`${baseUrl}/top/anime?filter=airing`);
+        const data = await response.json();
+        res.status(200).json(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          res.status(404).json({ message: error.message });
+        } else {
+          res.status(404).json({ message: 'An unknown error occurred' });
+        }
+      }
+    }
+
+    export const getMovies = async (req: Request, res: Response) => {
+      try {
+        const response = await fetch(`${baseUrl}/top/anime?type=movie`);
+        const data = await response.json();
+        res.status(200).json(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          res.status(404).json({ message: error.message });
+        } else {
+          res.status(404).json({ message: 'An unknown error occurred' });
+        }
+      }
+    }
+
+    export const getTv = async (req: Request, res: Response) => {
+      try {
+        const response = await fetch(`${baseUrl}/top/anime?type=tv`);
+        const data = await response.json();
+        res.status(200).json(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          res.status(404).json({ message: error.message });
+        } else {
+          res.status(404).json({ message: 'An unknown error occurred' });
+        }
+      }
+    }
+
+
+    export const getGenres = async (req: Request, res: Response) => {
+      try {
+        const response = await fetch(`${baseUrl}/genre/anime`);
+        const data = await response.json();
+        res.status(200).json(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          res.status(404).json({ message: error.message });
+        } else {
+          res.status(404).json({ message: 'An unknown error occurred' });
+        }
+      }
+    }
+
     
