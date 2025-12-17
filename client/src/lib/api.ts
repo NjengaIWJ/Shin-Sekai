@@ -3,7 +3,8 @@ import envConfig from '../config/env.config';
 
 const api = axios.create({
   baseURL: envConfig.baseRL,
-  timeout: 10000
+  timeout: 10000,
+  withCredentials: true
 })
 
 api.interceptors.response.use(

@@ -1,9 +1,13 @@
-import Button from "../../components/ui/button";
+import Button from "../components/ui/button";
 import { Star, Users, Film, MessageSquare } from "lucide-react";
+import useAuthStore from "../store/auth.store";
+import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
+  const isAuth = useAuthStore(state => state.isAuth)
+  const navigate = useNavigate()
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background/80 to-background relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-background/80 to-background relative overflow-hidden font-small">
       {/* Background overlay/effect */}
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 z-0"></div>
 
@@ -16,24 +20,21 @@ export default function Landing() {
         </div>
         <div className="flex items-center gap-4">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              className="bg-anime-primary hover:bg-anime-primary/90 transition-all duration-300 shadow-lg shadow-anime-primary/20" onClick={() => {
-                window.location.href = "/register";
-              }}
-              variant="primary"
-            >
-              Sign Up
-            </Button>
-            <Button
-
-              variant="secondary"
-              className="border-anime-primary/50 hover:bg-anime-primary/10 transition-all duration-300" onClick={() => {
-                window.location.href = "/login";
-              }
-              }
-            >
-              Sign In
-            </Button>
+            {isAuth ? (
+              <Button className="" variant="secondary" onClick={() => navigate('/logout')}>Log Out</Button>
+            ) : (
+              <>
+                <Button onClick={() => navigate("/register")} variant="primary" className="">
+                  Sign Up
+                </Button>
+                <Button
+                  variant="secondary" className=""
+                  onClick={() => navigate("/login")}
+                >
+                  Sign In
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -117,7 +118,7 @@ export default function Landing() {
             community.
           </p>
           <Button variant="secondary"
-            className="bg-anime-primary hover:bg-anime-primary/90" onClick={()=> { alert('yawa') }}
+            className="bg-anime-primary hover:bg-anime-primary/90" onClick={() => { alert('yawa') }}
           >
             Get Started Now
           </Button>
